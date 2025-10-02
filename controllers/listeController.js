@@ -1,6 +1,7 @@
 import { validationResult } from "express-validator";
 import User from "../models/User.js";
 
+
 export const addList = async (req, res) => {
     const errors= validationResult(req);
     if (!errors.isEmpty()) {
