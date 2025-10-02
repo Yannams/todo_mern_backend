@@ -6,6 +6,8 @@ import userRoutes from './routes/userRoutes.js'
 import listeRoutes from './routes/listeRoutes.js'
 import tacheRoutes from './routes/tacheRoutes.js'
 import { auth } from './middleware/auth.js'
+import swaggerJsdoc from 'swagger-jsdoc'
+import swaggerUi from 'swagger-ui-express'
 
 dotenv.config()
 const app = express ()
@@ -21,6 +23,26 @@ mongoose.connect(process.env.MONGO_URI,{
 })
 .then(() => console.log('MongoDB connected'))
 .catch(err => console.error(err));
+
+const swaggerOptions = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Todo API",
+      version: "1.0.0",
+      description: "Documentation de l'API Todo avec Swagger",
+    },
+    servers: [
+      {
+        url: "https://todo-mern-backend-kdh4.onrender.com/api", // base url de ton API
+      },
+    ],
+  },
+  apis: ["./routes/*.js"], // où Swagger va chercher les commentaires (ex : fichiers routes)
+};
+
+const swaggerSpec = swaggerJsdoc(swaggerOptions);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use('/api/users',userRoutes)
 app.use('/api/list',auth,listeRoutes)
