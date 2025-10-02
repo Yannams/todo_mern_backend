@@ -33,6 +33,9 @@ const swaggerOptions = {
       description: "Documentation de l'API Todo avec Swagger",
     },
     servers: [
+      { 
+        url: "http://localhost:3000/api" 
+    },
       {
         url: "https://todo-mern-backend-kdh4.onrender.com/api", // base url de ton API
       },
@@ -43,7 +46,6 @@ const swaggerOptions = {
 
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-
 app.use('/api/users',userRoutes)
 app.use('/api/list',auth,listeRoutes)
 app.use('/api/task',auth,tacheRoutes)
